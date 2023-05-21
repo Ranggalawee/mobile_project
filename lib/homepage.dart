@@ -2,12 +2,19 @@ import 'dart:convert';
 import 'package:finalmobile/item.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:finalmobile/loginpage.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   List<Volcano> volcanos = [];
-  
+
   Future getVolcano() async {
     var response = await http.get(Uri.https('indonesia-public-static-api.vercel.app', 'api/volcanoes'));
     var jsonData = jsonDecode(response.body);
@@ -20,9 +27,44 @@ class HomePage extends StatelessWidget {
     }
   }
 
+  late SharedPreferences prefs;
+
+  @override
+  void initState(){
+    super.initState();
+    initial();
+  }
+
+  void initial() async {
+    prefs = await SharedPreferences.getInstance();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Home Page'),
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.red,
+        centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: ()  async{
+              await prefs.remove('username');
+
+              if(mounted){
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                      (route) => false,
+                );
+              }
+            },
+            icon: const Icon(Icons.logout),
+            tooltip: 'Logout',
+          ),
+        ],
+      ),
       body: FutureBuilder(
         future: getVolcano(),
         builder: (context, snapshot) {
