@@ -53,19 +53,6 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              width: 300,
-              height: 300,
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 3,
-                  )
-              ),
-              child: Image.asset(
-                ('../assets/loginPicture.jpg'),
-              ),
-            ),
-            const SizedBox(height: 10),
             const Text('Login',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -83,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                         width: 300,
                         child: TextFormField(
                           controller: _usernameController,
-                          cursorColor: const Color(0xffc1071e),
+                          cursorColor: const Color(0xff795548),
                           style: const TextStyle(fontSize: 15, color: Colors.black),
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
@@ -97,14 +84,13 @@ class _LoginPageState extends State<LoginPage> {
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5),
                               borderSide: const BorderSide(
-                                color: Colors.red,
+                                color: Colors.brown,
                                 width: 1.0,
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
                               borderSide: const BorderSide(
-                                color: Color(0xfffff5c518),
                                 width: 2.0,
                               ),
                             ),
@@ -132,14 +118,13 @@ class _LoginPageState extends State<LoginPage> {
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5),
                               borderSide: const BorderSide(
-                                color: Colors.red,
+                                color: Colors.brown,
                                 width: 1.0,
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
                               borderSide: const BorderSide(
-                                color: Color(0xfffff5c518),
                                 width: 2.0,
                               ),
                             ),
@@ -190,7 +175,7 @@ class _LoginPageState extends State<LoginPage> {
                             child:
                             const Text('Login', style: TextStyle(fontSize: 15)),
                             style: ElevatedButton.styleFrom(
-                              primary: const Color(0xffc1071e),
+                              primary: const Color(0xff795548),
                             ),
                           );
                         }),

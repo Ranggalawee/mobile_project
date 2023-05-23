@@ -1,31 +1,17 @@
-import 'dart:convert';
-import 'package:finalmobile/item.dart';
+import 'package:finalmobile/profilepage.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:finalmobile/loginpage.dart';
+import 'package:finalmobile/volcanopage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Volcano> volcanos = [];
-
-  Future getVolcano() async {
-    var response = await http.get(Uri.https('indonesia-public-static-api.vercel.app', 'api/volcanoes'));
-    var jsonData = jsonDecode(response.body);
-
-    for (var eachVolcano in jsonData) {
-      final volcano = Volcano(
-          nama: eachVolcano['nama'],
-          tinggi: eachVolcano['tinggi_meter']);
-      volcanos.add(volcano);
-    }
-  }
 
   late SharedPreferences prefs;
 
@@ -44,8 +30,8 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home Page'),
+        backgroundColor: Colors.brown,
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.red,
         centerTitle: true,
         actions: [
           IconButton(
@@ -65,36 +51,52 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: FutureBuilder(
-        future: getVolcano(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return ListView.builder(
-              itemCount: volcanos.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: ListTile(
-                        title: Text(volcanos[index].nama),
-                        subtitle: Text(volcanos[index].tinggi),
-                      ),
-                    ),
-                  );
-                },
-            );
-          }
-          else {
-            return const Center(child: CircularProgressIndicator(),
-            );
-          }
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(height: 20),
+            const Text('Pilih menu:', style: TextStyle(fontSize: 18)),
+            const SizedBox(height: 40),
+            Column(
+              children: [
+                ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (_) => VolcanoPage()));
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30.0, vertical: 20.0),
+                    primary: Colors.brown,
+                  ),
+                  icon: const Icon(Icons.add_location_sharp),  //icon data for elevated button
+                  label: const Text("Daftar Gunung Berapi"), //label text
+                ),
+                const SizedBox(height: 16),
+              ],
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.white, // set the color of the selected icon
+        unselectedItemColor: Colors.white,// set the color of the unselected icons
+        backgroundColor: Colors.brown,
+        onTap: (value) {
+          if (value == 1) Navigator.push(context, MaterialPageRoute(builder: (context)=> const MenuDaftarAnggota())) ;
         },
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'HOME PAGE',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.book),
+            label: 'PROFILE PAGE',
+          ),
+        ],
       ),
     );
   }
 }
-
