@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:finalmobile/loginpage.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:finalmobile/user.dart';
 
-void main() {
+String boxName = 'USER';
+
+void main() async {
+  await Hive.initFlutter();
+  Hive.registerAdapter<UserModel>(UserModelAdapter());
+  await Hive.openBox<UserModel>(boxName);
   runApp(const MyApp());
 }
 

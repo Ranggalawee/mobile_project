@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:finalmobile/loginpage.dart';
 import 'package:finalmobile/volcanopage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:finalmobile/camerapermission.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -74,6 +75,19 @@ class _HomePageState extends State<HomePage> {
                   label: const Text("Daftar Gunung Berapi"), //label text
                 ),
                 const SizedBox(height: 16),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (_) => MyApp()));
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30.0, vertical: 20.0),
+                    primary: Colors.brown,
+                  ),
+                  icon: const Icon(Icons.camera_alt),  //icon data for elevated button
+                  label: const Text("Camera"), //label text
+                ),
               ],
             ),
           ],
